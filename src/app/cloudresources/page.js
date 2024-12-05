@@ -2,11 +2,50 @@
 
 import Navbar from "../components/navbar";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import Azure from "../../../public/azure-logo.png";
 
 export default function CloudResources() {
+  const [resourceName, setResourceName] = useState("");
+  const [region, setRegion] = useState("");
+  const [os, setOS] = useState("");
+  const [adminUser, setAdminUser] = useState("");
+  const [adminPassword, setAdminPassword] = useState("");
+
+  const regions = [
+    {
+      title: "Asia-Pacific",
+      options: [{ value: "East Asia", label: "East Asia" }],
+    },
+    {
+      title: "United States",
+      options: [
+        { value: "East US", label: "East US" },
+        { value: "East US 2", label: "East US 2" },
+        { value: "North Central US", label: "North Central US" },
+        { value: "West US 2", label: "West US 2" },
+        { value: "West US 3", label: "West US 3" },
+      ],
+    },
+    {
+      title: "Europe",
+      options: [
+        { value: "North Europe (Ireland)", label: "North Europe (Ireland)" },
+      ],
+    },
+    {
+      title: "France",
+      options: [{ value: "France Central", label: "France Central" }],
+    },
+    {
+      title: "Germany",
+      options: [
+        { value: "Germany West Central", label: "Germany West Central" },
+      ],
+    },
+  ];
+
   return (
     <div className="min-h-screen text-white">
       <Navbar />
@@ -47,8 +86,8 @@ export default function CloudResources() {
               defaultValue="Virtual Machine"
             >
               <option value="Virtual Machine">Virtual Machine</option>
-              <option value="Storage">Storage</option>
-              <option value="Database">Database</option>
+              {/* <option value="Storage">Storage</option>
+              <option value="Database">Database</option> */}
             </select>
           </div>
 
@@ -62,12 +101,12 @@ export default function CloudResources() {
               id="name"
               name="name"
               className="border border-slate-300 rounded w-full px-4 py-2 text-base"
-              placeholder="Enter name"
-              defaultValue="VM_1"
+              placeholder="Enter virtual machine name"
+              onChange={(e) => setResourceName(e.target.value)}
             />
           </div>
 
-          {/* Resource Group */}
+          {/* Resource Group
           <div>
             <label htmlFor="resourceGroup" className="font-medium block mb-2">
               Resource Group
@@ -81,23 +120,39 @@ export default function CloudResources() {
               <option value="Group1">Group1</option>
               <option value="Group2">Group2</option>
             </select>
-          </div>
+          </div> */}
 
           {/* Region */}
           <div>
             <label htmlFor="region" className="font-medium block mb-2">
               Region
             </label>
-            <select
-              id="region"
-              name="region"
-              className="border border-slate-300 rounded w-full px-4 py-2 text-base"
-              defaultValue="West Europe"
-            >
-              <option value="West Europe">West Europe</option>
-              <option value="East US">East US</option>
-              <option value="Asia Pacific">Asia Pacific</option>
-            </select>
+            <div className="relative border border-slate-300 rounded w-full px-4 py-2 text-base">
+              <select
+                id="region"
+                name="region"
+                className="w-full focus:outline-none"
+                defaultValue="East Asia"
+                onChange={(e) => setRegion(e.target.value)}
+              >
+                <option value="" disabled>
+                  Select a region
+                </option>
+                {regions.map((section, index) => (
+                  <optgroup key={index} label={section.title}>
+                    {section.options.map((option) => (
+                      <option
+                        key={option.value}
+                        value={option.value}
+                        className={option.className || ""}
+                      >
+                        {option.label}
+                      </option>
+                    ))}
+                  </optgroup>
+                ))}
+              </select>
+            </div>
           </div>
 
           {/* VM Size */}
@@ -129,7 +184,6 @@ export default function CloudResources() {
             >
               <option value="Ubuntu">Ubuntu</option>
               <option value="Windows">Windows</option>
-              <option value="RedHat">RedHat</option>
             </select>
           </div>
 
@@ -162,7 +216,7 @@ export default function CloudResources() {
             />
           </div>
 
-          {/* Network Interface */}
+          {/* Network Interface
           <div>
             <label htmlFor="nic" className="font-medium block mb-2">
               Network Interface (NIC)
@@ -174,7 +228,7 @@ export default function CloudResources() {
               className="border border-slate-300 rounded w-full px-4 py-2 text-base"
               placeholder="Enter NIC name"
             />
-          </div>
+          </div> */}
 
           {/* Private IP Allocation */}
           <div>
@@ -193,10 +247,10 @@ export default function CloudResources() {
           </div>
         </div>
 
-        {/* Optional Details */}
+        {/* Optional Details
         <div className="mt-6">
           <button className="text-blue-500 underline">Optional Details</button>
-        </div>
+        </div> */}
 
         {/* Buttons */}
         <div className="flex justify-between items-center mt-8">
